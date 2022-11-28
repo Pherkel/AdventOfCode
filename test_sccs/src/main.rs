@@ -14,18 +14,18 @@ fn read_csv() -> Result<Array2<u8>, Box<dyn Error>> {
 
 fn main() {
     // read csv into a two-dimensional Array
-    let adj_matrix: Array2<u8> = read_csv().expect("type");
+    let adj_matrix: Array2<u8> = read_csv().expect("type").into_owned();
 
     // determine the source components of the graph with dfs
 
     let mut visited = vec![false; 1000];
 
-    let mut finish_time: Vec<usize>;
+    let mut finish_time: Vec<usize> = vec![0, 999];
 
     fn dfs_finish_time(
         u: usize,
         visited: &mut Vec<bool>,
-        adj_matrix: &mut Array2<u8>,
+        adj_matrix: &Array2<u8>,
         finish_time: &mut Vec<usize>,
     ) {
         visited[u] = true;
@@ -41,7 +41,7 @@ fn main() {
 
     for vertex in 0..1000 {
         if !visited[vertex] {
-            dfs_finish_time(vertex, &mut visited, &mut adj_matrix, &mut finish_time);
+            dfs_finish_time(vertex, &mut visited, &adj_matrix, &mut finish_time);
         }
     }
 
@@ -51,7 +51,7 @@ fn main() {
 
     let mut visited = vec![false; 1000];
 
-    let mut components: Vec<Vec<usize>>;
+    let mut components: Vec<Vec<usize>> = vec![];
     let mut num_components: usize = 0;
 
     fn dfs_tree(
@@ -64,7 +64,7 @@ fn main() {
         visited[u] = true;
         components[num_components].push(u);
 
-        for i in 0..1000 {
+        for i in 0..999 {
             if !visited[i] && t_adj[[u, i]] == 1 {
                 dfs_tree(i, visited, t_adj, components, num_components);
             }
@@ -72,9 +72,9 @@ fn main() {
     }
 
     while !finish_time.is_empty() {
-        let mut curr_vertex = finish_time.pop().expect("msg");
-
+        let curr_vertex = finish_time.pop().expect("msg");
         if !visited[curr_vertex] {
+            components.push(vec![]);
             dfs_tree(
                 curr_vertex,
                 &mut visited,
@@ -85,4 +85,6 @@ fn main() {
             num_components += 1;
         }
     }
+
+    println!("{:?}", components);
 }
