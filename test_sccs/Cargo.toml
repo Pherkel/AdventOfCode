@@ -1,0 +1,12 @@
+[package]
+name = "test_sccs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+csv = "1.1"
+serde = "1.0.148"
+ndarray-csv = "0.5.1"
+ndarray = "0.15.6"
