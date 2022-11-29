@@ -13,6 +13,9 @@ fn read_csv() -> Result<Array2<u8>, Box<dyn Error>> {
 }
 
 fn main() {
+    use std::time::Instant;
+    let now = Instant::now();
+
     // read csv into a two-dimensional Array
     let adj_matrix: Array2<u8> = read_csv().expect("type").into_owned();
 
@@ -86,5 +89,7 @@ fn main() {
         }
     }
 
-    println!("{:?}", components);
+    let elapsed = now.elapsed();
+    println!("Elapsed time: {:.2?}", elapsed);
+    //println!("{:?}", components);
 }
