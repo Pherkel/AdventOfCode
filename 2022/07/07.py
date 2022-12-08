@@ -55,6 +55,8 @@ def total_sum(node, res):
     
     return res
 
+print(total_sum(first_node, 0))
+
 req_space = 30000000 - (70000000 - occupied)
 remove_cand = []
 
