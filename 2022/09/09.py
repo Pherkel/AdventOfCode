@@ -1,5 +1,3 @@
-import numpy as np
-
 with open("2022/09/input") as input:
     data = [[x.split()[0], int(x.split()[1])] for x in input.readlines()]
 
@@ -39,31 +37,34 @@ class vec2D:
 
 positions = set()
 
-pos_head = vec2D(0, 0)
-pos_tail = vec2D(0, 0)
+elems = [vec2D(0, 0) for x in range(10)]
 
 positions.add((0, 0))
 for inst in data:
     dr = get_vec(inst)
+    # apply direction n times to head node
     for i in range(inst[1]):
-        pos_head.add(dr)
+        elems[-1].add(dr)
+        # step through nodes from head to tail and apply movement rules to each
+        for j in reversed(range(len(elems)-1)):
+            # get difference vector from previous node
+            diff = vec2D.diff(elems[j+1], elems[j])
 
-        diff = vec2D.diff(pos_head, pos_tail)
+            # diff is allowed
+            if (abs(diff.x) <= 1 and abs(diff.y) <= 1):
+                continue
 
-        if abs(diff.x) == 2 and diff.y == 0:
-            pos_tail.x += diff.x / 2
+            # only need ones!
+            if diff.x > 0:
+                elems[j].x += 1
+            elif diff.x < 0:
+                elems[j].x -= 1
 
-        if abs(diff.y) == 2 and diff.x == 0:
-            pos_tail.y += diff.y / 2
+            if diff.y > 0:
+                elems[j].y += 1
+            elif diff.y < 0:
+                elems[j].y -= 1
 
-        if (abs(diff.x) == 1 and abs(diff.y) == 2):
-            pos_tail.x += diff.x
-            pos_tail.y += diff.y / 2
-
-        if (abs(diff.x) == 2 and abs(diff.y) == 1):
-            pos_tail.x += diff.x / 2
-            pos_tail.y += diff.y
-
-        positions.add(vec2D.get_tup(pos_tail))
+        positions.add(vec2D.get_tup(elems[0]))
 
 print(len(positions))
