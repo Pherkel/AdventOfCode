@@ -3,7 +3,6 @@ import numpy as np
 with open("2022/08/input") as input:
     data = np.asarray([list(x.strip()) for x in input.readlines()], int)
 
-
 def solve1():
     dim_x = len(data[0])
     dim_y = len(data)
