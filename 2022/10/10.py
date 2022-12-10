@@ -19,7 +19,22 @@ for inst in data:
 
 res = 0
 for i in range(20, len(cycles), 40):
-    print(cycles[i-1])
     res += i * cycles[i-1]
 
-print(res)
+
+# sprite is at x +/- 1
+# cycle number mod 39 = current pos for each row
+# if current pos is within sprite range = draw # else draw .
+
+# go through every cycle, current pos within row = cycle mod 40
+# if cycle[i] == i mod 40:
+
+row = 0
+k = 0
+for i in range(0, len(cycles)):
+    if i % 40 in {cycles[i] - 1, cycles[i], cycles[i] + 1}:
+        print("#", end="")
+    else:
+        print(".", end="")
+    if i % 40 == 39:
+        print("")
