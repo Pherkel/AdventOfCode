@@ -1,3 +1,5 @@
+from functools import reduce
+
 with open("2022/11/input") as input:
     data = []
     temp = [x.strip() for x in input.readlines()]
@@ -11,9 +13,11 @@ with open("2022/11/input") as input:
         inst["f"] = int(temp[i+5][-1])
         data.append(inst)
 
-inspector = [0 for x in range(8)]
+inspector = [0 for x in range(len(data))]
 
-for i in range(20):
+kgV = reduce(lambda x, y: x*y, [x["test"] for x in data])
+
+for i in range(10000):
     for idx, monkey in enumerate(data):
         while len(monkey["items"]) != 0:
             match monkey["op"][0]:
@@ -28,7 +32,7 @@ for i in range(20):
                     else:
                         monkey["items"][0] *= int(monkey["op"][1])
 
-            monkey["items"][0] = monkey["items"][0]//3
+            monkey["items"][0] = monkey["items"][0] % kgV
 
             if monkey["items"][0] % monkey["test"] == 0:
                 data[monkey["t"]]["items"].append(monkey["items"][0])
@@ -37,7 +41,7 @@ for i in range(20):
 
             monkey["items"].pop(0)
             inspector[idx] += 1
-    print(f"Round: {i}, {data}")
+    print(f"Round: {i}")
 
 inspector.sort(reverse=True)
 # part 1
