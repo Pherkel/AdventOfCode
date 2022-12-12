@@ -6,7 +6,6 @@ with open("2022/12/input") as input:
 dist = [[float("inf") for x in range(len(data[0]))] for x in range(len(data))]
 
 queue = []
-visited = [[False for x in range(len(data[0]))] for x in range(len(data))]
 for i in range(len(data)):
     for j in range(len(data[0])):
         if data[i][j] == "S":
@@ -36,10 +35,32 @@ def get_neighbors(u):
 while queue:
     u = queue.pop(0)
     for n in get_neighbors(u):
-        if valid(u, n) and not visited[n[0]][n[1]]:
+        if valid(u, n) and dist[n[0]][n[1]] == float("inf"):
             dist[n[0]][n[1]] = dist[u[0]][u[1]] + 1
             queue.append(n)
-    visited[u[0]][u[1]] = True
-
 
 print(dist[end[0]][end[1]])
+# part 2
+
+a_list = []
+dist_list = []
+for i in range(len(data)):
+    for j in range(len(data[0])):
+        if data[i][j] == "a":
+            a_list.append((i, j))
+
+for a in a_list:
+    dist = [[float("inf") for x in range(len(data[0]))]
+            for x in range(len(data))]
+    queue = [a]
+    dist[a[0]][a[1]] = 0
+
+    while queue:
+        u = queue.pop(0)
+        for n in get_neighbors(u):
+            if valid(u, n) and dist[n[0]][n[1]] == float("inf"):
+                dist[n[0]][n[1]] = dist[u[0]][u[1]] + 1
+                queue.append(n)
+    dist_list.append(dist[end[0]][end[1]])
+
+print(min(dist_list))
