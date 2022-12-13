@@ -1,3 +1,5 @@
+from functools import cmp_to_key
+
 with open("2022/13/input") as input:
     data = [[*map(eval, x.split())]
             for x in input.read().split('\n\n')]
@@ -58,4 +60,17 @@ res = 0
 for i in range(0, len(data)):
     if valid2(*data[i]) == -1:
         res += i + 1
+print(res)
+
+# part 2
+with open("2022/13/input") as input:
+    data = [eval(x.strip()) for x in input.readlines() if x.strip()]
+data.append([[2]])
+data.append([[6]])
+
+data.sort(key=cmp_to_key(valid2))
+res = 1
+for i in range(len(data)):
+    if data[i] == [[2]] or data[i] == [[6]]:
+        res *= i + 1
 print(res)
