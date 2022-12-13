@@ -42,7 +42,6 @@ def valid2(left, right):
                 return 1
             if left == right:
                 return 0
-            # return (left > right) - (left < right)
         case int(), list():
             return valid2([left], right)
         case list(), int():
