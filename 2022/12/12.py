@@ -1,5 +1,3 @@
-import numpy as np
-
 with open("2022/12/input") as input:
     data = [list(x.strip().split()[0]) for x in input.readlines()]
 
