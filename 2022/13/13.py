@@ -11,7 +11,7 @@ def valid(left, right):
     if len(left) > 0 and len(right) == 0:
         return False
     if len(left) == 0 and len(right) == 0:
-        return True
+        return -1
 
     if type(left[0]) == int and type(right[0]) == list:
         return valid([left.pop(0)], right.pop(0)) and valid(left, right)
