@@ -6,7 +6,7 @@ for path in temp:
     data.append([(int(x.split(",")[0]), (int(x.split(",")[1])))
                 for x in path if x != "->"])
 
-grid = np.full((546, 170), ".")
+grid = np.full((2000, 170), ".")
 
 start = (500, 0)
 
@@ -28,7 +28,10 @@ for ding in data:
 
                 grid[x][y] = "#"
 
-print(f"max depth: {max_depth}")
+floor = max_depth + 2
+
+for x in range(len(grid)):
+    grid[x][floor] = "#"
 
 
 def down(sand):
@@ -51,11 +54,12 @@ def down_right(sand):
     return grid[sand[0]+1][sand[1]+1]
 
 
-i_count = 0
-sand = start
+i_count = 1
 
-# move down until hitting something
-while sand[1] <= max_depth:
+sand = start
+while sand[1] < floor:
+    # move down until hitting something
+    # spawn new sand from start
 
     if down(sand) == '.':
         sand = (sand[0], sand[1]+1)
@@ -70,7 +74,8 @@ while sand[1] <= max_depth:
     if down_right(sand) == ".":
         sand = (sand[0]+1, sand[1]+1)
         continue
-
+    if [*sand] == [*start]:
+        break
     # hit something but both sides are blocked
     grid[*sand] = "O"
     sand = start
