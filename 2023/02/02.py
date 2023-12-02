@@ -153,10 +153,49 @@ def solution_1(input):
     print(res)
 
 
-def solution_2():
+def solution_2(input):
+    pattern = r"Game (\d+): (.*)"
+    games = re.findall(pattern, input)
+
+    output = []
+    for game in games:
+        game_str = game[1]
+
+        rounds = game_str.split(";")
+        rounds_list = []
+        for round_str in rounds:
+            round_list = []
+            for item in round_str.split(","):
+                item = item.strip()
+                match = re.match(r"(\d+) (\w+)", item)
+                if match:
+                    count, color = match.groups()
+                    round_list.append((int(count), color))
+            rounds_list.append(round_list)
+
+        output.append(rounds_list)
+
+    res = 0
+    for idx, game in enumerate(output):
+        m_red, m_green, m_blue = 0, 0, 0
+        for set in game:
+            for i in set:
+                match i[1]:
+                    case "red":
+                        if i[0] > m_red:
+                            m_red = i[0]
+                    case "green":
+                        if i[0] > m_green:
+                            m_green = i[0]
+                    case "blue":
+                        if i[0] > m_blue:
+                            m_blue = i[0]
+        res += m_red * m_green * m_blue
+
     print("Solution 2: ")
+    print(res)
 
 
 if __name__ == "__main__":
     solution_1(input)
-    solution_2()
+    solution_2(input)
