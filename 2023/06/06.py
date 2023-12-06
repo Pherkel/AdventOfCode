@@ -21,12 +21,24 @@ def solution_1(input):
         res *= num
     print("Solution 1: ")
     print(res)
+    print()
 
 
-def solution_2():
+def solution_2(input):
+    time, distance = input.split("\n")
+    time, distance = re.findall(r"\d+", time), re.findall(r"\d+", distance)
+    time, distance = "".join(time), "".join(distance)
+    time, distance = int(time), int(distance)
+
+    res = 0
+    for accel in range(time):
+        if (time - accel) * accel > distance:
+            res += 1
+
     print("Solution 2: ")
+    print(res)
 
 
 if __name__ == "__main__":
     solution_1(i)
-    solution_2()
+    solution_2(i)
